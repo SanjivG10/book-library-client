@@ -1,9 +1,12 @@
 import { useMutation } from '@apollo/client';
 import { yupResolver } from '@hookform/resolvers/yup';
+import axios from "axios";
 
+import { BACKEND_URLS, PAGE_URLS } from '@constants/urls';
 import ADD_BOOK from '@graphql/mutations/addBook.mutation';
 import { addBookSchema } from '@lib/yup-schemas';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 
 const AddBook = () => {
     const {
@@ -17,16 +20,34 @@ const AddBook = () => {
     });
 
     const [addBook] = useMutation(ADD_BOOK);
+    const router = useRouter();
+
+    const uploadCoverImage = async (file) => {
+        try {
+            const formData = new FormData();
+            formData.append("coverImage", file);
+            const response = await axios.post(BACKEND_URLS.UPLOAD_ROUTE, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+            return response.data.file
+        }
+        catch {
+            console.log("File Upload Failed");
+        }
+    };
 
     const onSubmit = async (data) => {
-        const { title, author, date, coverImage, collection } = data;
+        const { title, author, date, coverImage, collectionType } = data;
+        const uploadedImageUrl = await uploadCoverImage(coverImage[0]);
+        if (uploadedImageUrl) {
+            await addBook({
+                variables: { title, author, date: date.toISOString(), coverImage: uploadedImageUrl, collectionType }
+            });
+            router.push(PAGE_URLS.HOME);
+        }
 
-        // Upload the cover image file to your server or a storage service
-        // before sending the image URL to the GraphQL server
-        // const uploadedImageUrl = await uploadCoverImage(coverImage[0]);
-
-        // await addBook({ variables: { title, author, date, coverImage: 'uploadedImageUrl', collection } });
-        // reset();
     };
 
     const today = new Date();
@@ -107,20 +128,20 @@ const AddBook = () => {
                         render={({ field }) => (
                             <select
                                 {...field}
-                                className={`shadow appearance-none border ${errors.collection ? 'border-red-500' : 'border-gray-200'
+                                className={`shadow appearance-none border ${errors.collectionType ? 'border-red-500' : 'border-gray-200'
                                     } rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
                             >
                                 <option value="">Select a collection</option>
-                                <option value="Want to read">Want to read</option>
-                                <option value="Reading">Reading</option>
-                                <option value="Read">Read</option>
+                                <option value="WANT_TO_READ">Want to read</option>
+                                <option value="READING">Reading</option>
+                                <option value="READ">Read</option>
                             </select>
                         )}
                         control={control}
-                        name="collection"
+                        name="collectionType"
                     />
-                    {errors.collection && (
-                        <p className="text-red-500 text-xs italic mt-1">{errors.collection.message}</p>
+                    {errors.collectionType && (
+                        <p className="text-red-500 text-xs italic mt-1">{errors.collectionType.message}</p>
                     )}
 
                 </div>
