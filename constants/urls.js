@@ -10,7 +10,7 @@ export const PAGE_URLS = {
     SIGNUP: "/signup",
     LOGIN: "/login",
     ADD_BOOK: "/add-book",
-    VIEW_BOOKS: "/view-books",
-    MODIFY_BOOK: "/modify-book"
+    VIEW_BOOKS: "/books",
+    EACH_BOOK: "/book"
 
 }

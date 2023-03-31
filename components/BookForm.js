@@ -1,32 +1,46 @@
-import { useMutation } from '@apollo/client';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from "axios";
 
 import { BACKEND_URLS } from '@constants/urls';
-import ADD_BOOK from '@graphql/mutations/addBook.mutation';
-import { addBookSchema } from '@lib/yup-schemas/book.schema';
+import { addBookSchema, editBookSchema } from '@lib/yup-schemas/book.schema';
+import Image from 'next/image';
 import { Controller, useForm } from 'react-hook-form';
-import { useEffect } from 'react';
-import { UPDATE_BOOK } from '@graphql/queries/getbook.query';
+import { useEffect, useState } from 'react';
 
-const BookForm = ({ onCompletion, defaultValues = {}, edit = false }) => {
+const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
+
+    const currentDate = edit && defaultValues?.date ? new Date(defaultValues.date) : new Date();
+    const defaultDateString = currentDate.toISOString().substring(0, 10);
+    const [image, setImage] = useState("");
 
     const {
         register,
         handleSubmit,
         control,
         formState: { errors },
+        watch
     } = useForm({
-        resolver: yupResolver(addBookSchema),
-        defaultValues
+        resolver: yupResolver(edit ? editBookSchema : addBookSchema),
+        defaultValues: {
+            ...defaultValues,
+            date: defaultDateString
+        }
     });
 
-    const [addBook] = useMutation(ADD_BOOK);
-    const [updateBook] = useMutation(UPDATE_BOOK);
 
-
-    const today = edit && defaultValues?.date ? new Date(defaultValues.date) : new Date();
-    const defaultDateString = today.toISOString().substring(0, 10);
+    const watchCoverImage = watch("coverImage");
+    useEffect(() => {
+        if (watchCoverImage) {
+            if (typeof watchCoverImage === "string") {
+                const image = BACKEND_URLS.IMAGE_URL + watchCoverImage;
+                setImage(image);
+            }
+            else {
+                const fileUrl = URL.createObjectURL(watchCoverImage[0]);
+                setImage(fileUrl);
+            }
+        }
+    }, [watchCoverImage])
 
 
     const uploadCoverImage = async (file) => {
@@ -45,26 +59,20 @@ const BookForm = ({ onCompletion, defaultValues = {}, edit = false }) => {
         }
     };
 
-    const onSubmit = async (data) => {
-        const { title, author, date, coverImage, collectionType } = data;
-        const uploadedImageUrl = await uploadCoverImage(coverImage[0]);
-        if (uploadedImageUrl) {
-            if (edit) {
-                await updateBook({ variables: { id: defaultValues.id, ...data } });
-            }
-            else {
-                await addBook({
-                    variables: { title, author, date: date.toISOString(), coverImage: uploadedImageUrl, collectionType }
-                });
-            }
-            onCompletion();
+    const submitForm = async (data) => {
+        let uploadedImageUrl = "";
+        if (!data.coverImage.length || typeof data.coverImage === "string") {
+            uploadedImageUrl = defaultValues?.coverImage;
         }
-
+        else {
+            uploadedImageUrl = await uploadCoverImage(data.coverImage[0]);
+        }
+        onSubmit(data, uploadedImageUrl);
     };
 
     return (
         <div className="container mx-auto mt-10">
-            <form onSubmit={handleSubmit(onSubmit)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <form onSubmit={handleSubmit(submitForm)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
                         Title
@@ -124,30 +132,31 @@ const BookForm = ({ onCompletion, defaultValues = {}, edit = false }) => {
                         accept="image/*"
                         {...register('coverImage')}
                     />
+
                     {errors.coverImage && (
                         <p className="text-red-500 text-xs italic mt-1">{errors.coverImage.message}</p>
                     )}
                 </div>
+                {
+                    image &&
+                    <div>
+                        <Image alt='cover' width={200} height={400} src={image} />
+                    </div>
+                }
                 <div className="mb-6">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="collection">
                         Collection
                     </label>
-                    <Controller
-                        render={({ field }) => (
-                            <select
-                                {...field}
-                                className={`shadow appearance-none border ${errors.collectionType ? 'border-red-500' : 'border-gray-200'
-                                    } rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                            >
-                                <option value="">Select a collection</option>
-                                <option value="WANT_TO_READ">Want to read</option>
-                                <option value="READING">Reading</option>
-                                <option value="READ">Read</option>
-                            </select>
-                        )}
-                        control={control}
+                    <select
                         name="collectionType"
-                    />
+                        className={`shadow appearance-none border ${errors.collectionType ? 'border-red-500' : 'border-gray-200'
+                            } rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+                    >
+                        <option value="">Select a collection</option>
+                        <option value="WANT_TO_READ">Want to read</option>
+                        <option value="READING">Reading</option>
+                        <option value="READ">Read</option>
+                    </select>
                     {errors.collectionType && (
                         <p className="text-red-500 text-xs italic mt-1">{errors.collectionType.message}</p>
                     )}
@@ -158,7 +167,9 @@ const BookForm = ({ onCompletion, defaultValues = {}, edit = false }) => {
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="submit"
                     >
-                        Add Book
+                        {
+                            edit ? "Save" : "Add Book"
+                        }
                     </button>
                 </div>
             </form>

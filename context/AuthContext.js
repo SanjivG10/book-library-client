@@ -4,23 +4,23 @@ import { useRouter } from 'next/router';
 import { ME } from '@graphql/queries/me.query';
 import { PAGE_URLS } from '@constants/urls';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
+
+const AUTH_URLS = [PAGE_URLS.LOGIN, PAGE_URLS.SIGNUP]
 
 export const AuthProvider = ({ children }) => {
-
-    const { loading, data, refetch } = useQuery(ME);
     const router = useRouter();
+    const { loading, data, refetch } = useQuery(ME, {
+        onError: () => {
+            if (!AUTH_URLS.includes(router.pathname)) {
+                router.push(PAGE_URLS.LOGIN);
+            }
+        }
+    });
 
     useEffect(() => {
         refetch();
     }, [router.pathname]);
-
-    useEffect(() => {
-        if (data && data.me) {
-            const token = data.me.token;
-            localStorage.setItem("token", token);
-        }
-    }, [data]);
 
     if (loading) return <div>Loading...</div>;
 

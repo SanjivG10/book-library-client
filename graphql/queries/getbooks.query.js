@@ -9,6 +9,7 @@ const GET_BOOKS = gql`
       date
       coverImage
       collectionType
+      user
     }
   }
 `;

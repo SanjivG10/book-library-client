@@ -22,7 +22,7 @@ const LoginPage = () => {
         try {
             const { data } = await login({ variables: { username, password } });
             localStorage.setItem('token', data.login.token);
-            router.push(PAGE_URLS.ADD_BOOK);
+            router.push(PAGE_URLS.HOME);
         } catch (err) {
             console.error('Login failed', err);
         }

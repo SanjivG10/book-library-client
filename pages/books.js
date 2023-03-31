@@ -1,12 +1,15 @@
 import { useQuery } from '@apollo/client';
-import { BACKEND_URLS } from '@constants/urls';
+import EachBook from '@components/Book/EachBook';
 import GET_BOOKS from '@graphql/queries/getbooks.query.js';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FaSortAlphaDown, FaSortAlphaUp, FaSortNumericDown, FaSortNumericUp } from 'react-icons/fa';
+import { AuthContext } from "@context/AuthContext"
 
 const ViewBooks = () => {
     const [books, setBooks] = useState([]);
     const [activeTab, setActiveTab] = useState('WANT_TO_READ');
+    const { user } = useContext(AuthContext)
+
     const { loading, error, data, refetch } = useQuery(GET_BOOKS, {
         variables: {
             collectionType: activeTab
@@ -79,13 +82,13 @@ const ViewBooks = () => {
                     Read
                 </button>
             </div>
-            <div className="flex justify-between items-center mb-4">
-                <div>
-                    <span className="mr-2">Sort by title</span>
+            <div className="flex items-center mb-4">
+                <div className='border-2 rounded p-1 cursor-pointer '>
                     <button
                         onClick={() => onSortChange('title')}
-                        className="focus:outline-none"
+                        className="focus:outline-none flex items-center justify-center"
                     >
+                        <span className="mr-2">Sort by title</span>
                         {sortConfig.key === 'title' && sortConfig.direction === 'asc' ? (
                             <FaSortAlphaUp className="text-blue-500" />
                         ) : (
@@ -93,12 +96,12 @@ const ViewBooks = () => {
                         )}
                     </button>
                 </div>
-                <div>
-                    <span className="mr-2">Sort by date</span>
+                <div className='border-2 rounded p-1 cursor-pointer mx-2'>
                     <button
                         onClick={() => onSortChange('date')}
-                        className="focus:outline-none"
+                        className="focus:outline-none flex items-center justify-center"
                     >
+                        <span className="mr-2">Sort by date</span>
                         {sortConfig.key === 'date' && sortConfig.direction === 'asc' ? (
                             <FaSortNumericUp className="text-blue-500" />
                         ) : (
@@ -110,18 +113,9 @@ const ViewBooks = () => {
             {sortedBooks.length === 0 && <div className='text-center text-xl font-weight-bold'>
                 No books for this category!
             </div>}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="flex flex-wrap items-center justify-start">
                 {sortedBooks.map((book) => (
-                    <div key={book.id} className="bg-white shadow-md rounded-lg p-6">
-                        <img
-                            src={BACKEND_URLS.IMAGE_URL + book.coverImage}
-                            alt={book.title}
-                            className="w-full h-48 object-cover object-center rounded-t-lg mb-4"
-                        />
-                        <h3 className="text-xl font-semibold">{book.title}</h3>
-                        <p className="text-gray-600">Author: {book.author}</p>
-                        <p className="text-gray-600">Date: {book.date}</p>
-                    </div>
+                    <EachBook key={book.id} book={book} isOwner={user?.id === book.user} />
                 ))}
             </div>
         </div>
