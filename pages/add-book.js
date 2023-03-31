@@ -22,7 +22,6 @@ const AddBook = () => {
 
     return (
         <BookForm onSubmit={onSubmit} />
-
     );
 };
 

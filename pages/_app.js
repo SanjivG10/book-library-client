@@ -1,5 +1,6 @@
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import Navbar from '@components/common/Navbar';
 import { AuthProvider } from '@context/AuthContext';
 
 import '@styles/globals.css';
@@ -27,6 +28,7 @@ const client = new ApolloClient({
 export default function App({ Component, pageProps }) {
   return <ApolloProvider client={client}>
     <AuthProvider>
+      <Navbar />
       <Component {...pageProps} />
     </AuthProvider>
   </ApolloProvider>

@@ -1,9 +1,9 @@
-
+import BooksList from "@components/Book/BookList";
 
 const Home = () => {
   return (
     <main>
-      Hello World
+      <BooksList />
     </main>
   )
 }

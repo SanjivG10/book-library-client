@@ -10,8 +10,12 @@ const AUTH_URLS = [PAGE_URLS.LOGIN, PAGE_URLS.SIGNUP]
 
 export const AuthProvider = ({ children }) => {
     const router = useRouter();
+    const [user, setUser] = useState(null);
+
     const { loading, data, refetch } = useQuery(ME, {
         onError: () => {
+            localStorage.removeItem('token');
+            setUser(null);
             if (!AUTH_URLS.includes(router.pathname)) {
                 router.push(PAGE_URLS.LOGIN);
             }
@@ -20,30 +24,38 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         refetch();
-    }, [router.pathname]);
+    }, [router.pathname])
+
+
+    useEffect(() => {
+        if (data && data.me) {
+            setUser(data.me);
+        }
+        else {
+            setUser(null);
+        }
+    }, [data, loading])
 
     if (loading) return <div>Loading...</div>;
 
-    return <AuthContext.Provider value={{ user: data?.me, loading }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ user, loading, setUser }}>{children}</AuthContext.Provider>;
+};
+
+export const useAuth = () => {
+    return React.useContext(AuthContext);
 };
 
 export const withAuth = (Component) => {
     return (props) => {
-        const { user, loading } = useContext(AuthContext);
-
         const router = useRouter();
 
         useEffect(() => {
-            if (!loading && !user) {
-                if (router.pathname !== PAGE_URLS.SIGNUP) {
-                    router.push(PAGE_URLS.LOGIN);
-                }
+            const token = localStorage.getItem("token");
+            if (!token) {
+                router.push(PAGE_URLS.LOGIN);
             }
-        }, [user, loading]);
+        }, []);
 
-        if (loading) {
-            return <div>Loading...</div>;
-        }
 
         return <Component {...props} />;
     };

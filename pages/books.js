@@ -1,14 +1,14 @@
 import { useQuery } from '@apollo/client';
 import EachBook from '@components/Book/EachBook';
-import GET_BOOKS from '@graphql/queries/getbooks.query.js';
-import { useContext, useEffect, useState } from 'react';
+import { useAuth } from "@context/AuthContext";
+import { GET_BOOKS } from '@graphql/queries/getbooks.query.js';
+import { useEffect, useState } from 'react';
 import { FaSortAlphaDown, FaSortAlphaUp, FaSortNumericDown, FaSortNumericUp } from 'react-icons/fa';
-import { AuthContext } from "@context/AuthContext"
 
 const ViewBooks = () => {
     const [books, setBooks] = useState([]);
     const [activeTab, setActiveTab] = useState('WANT_TO_READ');
-    const { user } = useContext(AuthContext)
+    const { user } = useAuth();
 
     const { loading, error, data, refetch } = useQuery(GET_BOOKS, {
         variables: {

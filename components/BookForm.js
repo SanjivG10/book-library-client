@@ -4,8 +4,8 @@ import axios from "axios";
 import { BACKEND_URLS } from '@constants/urls';
 import { addBookSchema, editBookSchema } from '@lib/yup-schemas/book.schema';
 import Image from 'next/image';
-import { Controller, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
 
@@ -16,7 +16,6 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
     const {
         register,
         handleSubmit,
-        control,
         formState: { errors },
         watch
     } = useForm({
@@ -28,19 +27,19 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
     });
 
 
-    const watchCoverImage = watch("coverImage");
-    useEffect(() => {
-        if (watchCoverImage) {
-            if (typeof watchCoverImage === "string") {
-                const image = BACKEND_URLS.IMAGE_URL + watchCoverImage;
-                setImage(image);
-            }
-            else {
-                const fileUrl = URL.createObjectURL(watchCoverImage[0]);
-                setImage(fileUrl);
-            }
-        }
-    }, [watchCoverImage])
+    // const watchCoverImage = watch("coverImage");
+    // useEffect(() => {
+    //     if (watchCoverImage) {
+    //         if (typeof watchCoverImage === "string") {
+    //             const image = BACKEND_URLS.IMAGE_URL + watchCoverImage;
+    //             setImage(image);
+    //         }
+    //         else if (watchCoverImage?.[0]) {
+    //             const fileUrl = URL.createObjectURL(watchCoverImage[0]);
+    //             setImage(fileUrl);
+    //         }
+    //     }
+    // }, [watchCoverImage])
 
 
     const uploadCoverImage = async (file) => {
