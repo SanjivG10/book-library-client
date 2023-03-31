@@ -19,7 +19,7 @@ const ViewBooks = () => {
     }, [activeTab])
 
     useEffect(() => {
-        if (data) {
+        if (data?.getBooks) {
             setBooks(data.getBooks);
         }
     }, [data]);

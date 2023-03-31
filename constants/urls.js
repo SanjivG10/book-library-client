@@ -6,5 +6,11 @@ export const BACKEND_URLS = {
 }
 
 export const PAGE_URLS = {
-    HOME: "/"
+    HOME: "/",
+    SIGNUP: "/signup",
+    LOGIN: "/login",
+    ADD_BOOK: "/add-book",
+    VIEW_BOOKS: "/view-books",
+    MODIFY_BOOK: "/modify-book"
+
 }
