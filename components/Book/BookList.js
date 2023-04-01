@@ -1,28 +1,29 @@
 import { useQuery } from '@apollo/client';
+import Error from '@components/common/Error';
+import Spinner from '@components/common/Spinner';
+import { MAX_DESCRIPTION_LENGTH } from '@constants/book';
 import { GET_ALL_BOOKS } from '@graphql/queries/getbooks.query';
+import { getUniqueItemsByKey } from '@lib/utils';
 import { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import EachBook from './EachBook';
 
-
-const getUniqueItemsByKey = (items, key) => {
-    const arrayUniqueByKey = [...new Map(items.map(item =>
-        [item[key], item])).values()];
-    return arrayUniqueByKey;
-}
 
 
 const BooksList = () => {
     const [page, setPage] = useState(1);
-    const { data, loading, error, fetchMore } = useQuery(GET_ALL_BOOKS, {
+    const { data, error, fetchMore } = useQuery(GET_ALL_BOOKS, {
         variables: { limit: 2, page },
     });
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMore, setHasMore] = useState(false);
 
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
         if (data?.getAllBooks) {
-            const uniqueItems = getUniqueItemsByKey([...books, ...data.getAllBooks.items], "id");
+            const allBooks = [...books, ...data.getAllBooks.books].map((book) => { return { ...book, description: book.description.substring(0, MAX_DESCRIPTION_LENGTH) } });
+
+            const uniqueItems = getUniqueItemsByKey(allBooks, "id");
             setBooks(uniqueItems);
         }
     }, [data])
@@ -33,24 +34,29 @@ const BooksList = () => {
             variables: { page },
         });
 
-        if (result.data.getAllBooks.totalCount > books.length) {
-            setHasMore(true);
-        }
-        else {
-            setHasMore(false);
-        }
+        setHasMore(result.data.getAllBooks.hasMore)
     };
 
-    if (error) return <div>Error loading books</div>;
+    if (error) return <Error error={error} />
 
     return (
-        <div className='flex flex-col flex-wrap md:flex-row'>
-            {books.map((book) => (
-                <EachBook key={book.id} book={book} />
-            ))}
-            {loading && <div>
-                loading...</div>}
-        </div>
+        <>
+            <InfiniteScroll
+                dataLength={books.length}
+                next={fetchMoreBooks}
+                hasMore={hasMore}
+                loader={<Spinner />}
+            >
+                <div className='flex flex-col'>
+                    {books.map((book) => (
+                        <div key={book.id} className='my-1'>
+                            <EachBook key={book.id} book={book} />
+                        </div>
+                    ))}
+                </div>
+
+            </InfiniteScroll>
+        </>
     );
 };
 

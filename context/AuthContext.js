@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client';
+import Spinner from '@components/common/Spinner';
 import { PAGE_URLS } from '@constants/urls';
 import { ME } from '@graphql/queries/me.query';
 import { UNPROTECTED_ROUTES } from '@lib/routes/urls';
@@ -37,7 +38,7 @@ export const AuthProvider = ({ children }) => {
         }
     }, [data, loading])
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Spinner />;
 
     return <AuthContext.Provider value={{ user, loading, setUser, fetching: fetched }}>{children}</AuthContext.Provider>;
 };

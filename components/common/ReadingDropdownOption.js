@@ -4,7 +4,7 @@ const ReadingDropdownOption = ({ selectedOption, onChange }) => {
     return (
         <select
             className="bg-green-800 text-white py-2 px-4 mr-2 rounded-md w-full"
-            value={selectedOption}
+            value={selectedOption || ""}
             onChange={(e) => onChange(e.target.value)}
         >
             <option className="bg-white text-black" value="" disabled>Add to shelf</option>

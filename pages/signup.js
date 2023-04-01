@@ -17,13 +17,12 @@ const SignupPage = () => {
     } = useForm(yupResolver(signupSchema));
 
     const router = useRouter();
-    const [signup, { error, data }] = useMutation(SIGNUP);
+    const [signup, { error }] = useMutation(SIGNUP);
 
     const onSubmit = async (variables) => {
         try {
-            await signup({ variables });
-
-            localStorage.setItem('token', data.register.token);
+            const response = await signup({ variables });
+            localStorage.setItem('token', response.data.register.token);
             router.push(PAGE_URLS.HOME);
         } catch (err) {
             console.error('Login failed', err);

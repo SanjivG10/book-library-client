@@ -13,5 +13,5 @@ export const PAGE_URLS = {
     VIEW_BOOKS: "/books",
     EACH_BOOK: "/book",
     EACH_BOOK_PATH: "/book/[id]",
-
+    LIBRARY: "/library",
 }

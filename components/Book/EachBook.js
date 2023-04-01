@@ -1,11 +1,10 @@
-import Rating from '@components/common/Rating'
 import { BACKEND_URLS, PAGE_URLS } from '@constants/urls'
 import Link from 'next/link'
 
 const EachBook = ({ book }) => {
 
     return (
-        <div className='bg-white shadow-md rounded-lg p-1 m-2 w-full'>
+        <div className='bg-white shadow-md rounded-lg p-1 m-2'>
             <div className='flex flex-col sm:flex-row'>
                 <div className='flex-shrink-0'>
                     <Link href={PAGE_URLS.EACH_BOOK + "/" + book.id}>
@@ -22,12 +21,17 @@ const EachBook = ({ book }) => {
                         <h4 className='text-2xl mb-2 font-semibold'>{book.title}</h4>
                     </Link>
                     <p className='text-gray-600 mb-2'>By <span className='font-extrabold'>{book.author}</span></p>
-                    <div className='flex items-center mb-2'>
-                        <button className='bg-green-800 text-white p-2 border-r-2 rounded-md'>
-                            Want to read
-                        </button>
-                        <Rating />
+                    <div className='flex flex-col'>
+                        <div className="pr-4">
+                            <p className="text-gray-600">{book.description} ...</p>
+                        </div>
+                        <Link href={PAGE_URLS.EACH_BOOK + "/" + book.id}>
+                            <button className='bg-gray-800 hover:bg-gray-700 my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white py-2 px-4 rounded-md'>
+                                Read more
+                            </button>
+                        </Link>
                     </div>
+
                 </div>
             </div>
         </div>
