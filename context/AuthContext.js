@@ -1,12 +1,12 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useQuery } from '@apollo/client';
-import { useRouter } from 'next/router';
-import { ME } from '@graphql/queries/me.query';
 import { PAGE_URLS } from '@constants/urls';
+import { ME } from '@graphql/queries/me.query';
+import { UNPROTECTED_ROUTES } from '@lib/routes/urls';
+import { useRouter } from 'next/router';
+import React, { createContext, useEffect, useState } from 'react';
 
 export const AuthContext = createContext();
 
-const AUTH_URLS = [PAGE_URLS.LOGIN, PAGE_URLS.SIGNUP]
 
 export const AuthProvider = ({ children }) => {
     const router = useRouter();
@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
         onError: () => {
             localStorage.removeItem('token');
             setUser(null);
-            if (!AUTH_URLS.includes(router.pathname)) {
+            if (!UNPROTECTED_ROUTES.includes(router.pathname)) {
                 router.push(PAGE_URLS.LOGIN);
             }
         }
@@ -51,10 +51,11 @@ export const withAuth = (Component) => {
 
         useEffect(() => {
             const token = localStorage.getItem("token");
-            if (!token) {
+            const isRoutingAllowed = UNPROTECTED_ROUTES.includes(router.pathname);
+            if (!token && !isRoutingAllowed) {
                 router.push(PAGE_URLS.LOGIN);
             }
-        }, []);
+        }, [router.pathname]);
 
 
         return <Component {...props} />;

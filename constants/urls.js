@@ -11,6 +11,7 @@ export const PAGE_URLS = {
     LOGIN: "/login",
     ADD_BOOK: "/add-book",
     VIEW_BOOKS: "/books",
-    EACH_BOOK: "/book"
+    EACH_BOOK: "/book",
+    EACH_BOOK_PATH: "/book/[id]",
 
 }
