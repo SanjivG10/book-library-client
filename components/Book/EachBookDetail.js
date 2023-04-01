@@ -1,5 +1,5 @@
 
-import { useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import Rating from '@components/common/Rating';
 import ReadingDropdownOption from '@components/common/ReadingDropdownOption';
 import { BACKEND_URLS } from '@constants/urls';
@@ -7,8 +7,9 @@ import { NotificationContext } from '@context/NotificationContext';
 import FINISH_BOOK from '@graphql/mutations/finishBook.mutation';
 import RATE_BOOK from '@graphql/mutations/rateBook.mutation';
 import UPDATE_BOOK_SHELF from '@graphql/mutations/updateShelf.mutation';
+import { USER_BOOK_STATUS } from '@graphql/queries/userBookStatus.query';
 import { useAuth } from '@hooks/useAuth.hook';
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const EachBookDetail = ({ book }) => {
 
@@ -20,11 +21,36 @@ const EachBookDetail = ({ book }) => {
     const [rateBook] = useMutation(RATE_BOOK);
     const [addOrUpdateBookshelf] = useMutation(UPDATE_BOOK_SHELF)
 
+    const [getCurrentUserStatus] = useLazyQuery(USER_BOOK_STATUS);
+
     const [isBookFinished, setIsBookFinished] = useState(false);
     const [currentUserRating, setCurrentUserRating] = useState(0);
     const [userBookSelectedOption, setUserSelectedOption] = useState('');
     const { user } = useAuth();
     const { setShowAuthModal } = useContext(NotificationContext);
+
+    const fetchCurrentUserBookStatus = async () => {
+        const response = await getCurrentUserStatus({
+            variables: {
+                bookId: book.id
+            }
+        });
+
+        const { collectionType = "", finished = false, rating = 0 } = response?.data?.userBookStatus || {};
+        setCurrentUserRating(rating);
+        setUserSelectedOption(collectionType);
+        setIsBookFinished(finished);
+
+    }
+
+    useEffect(() => {
+
+        (async () => {
+            if (user) {
+                fetchCurrentUserBookStatus();
+            }
+        })()
+    }, [user])
 
     const checkIfUserExistAndShowModalIfNot = () => {
         if (!user) {
@@ -67,13 +93,12 @@ const EachBookDetail = ({ book }) => {
             return;
         }
         setUserSelectedOption(value);
-        const updateBookshelfResponse = await addOrUpdateBookshelf({
+        await addOrUpdateBookshelf({
             variables: {
                 bookId: book.id,
                 collectionType: value
             }
         });
-        console.log(updateBookshelfResponse.data.addOrUpdateBookshelf, 'haha');
     };
 
 

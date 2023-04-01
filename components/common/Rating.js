@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 
 const Rating = ({ value = 0, onClick }) => {
     const [rating, setRating] = useState(value);
+
+    useEffect(() => {
+        setRating(value);
+    }, [value])
 
     const handleMouseEnter = (index) => {
         setRating(index + 1);

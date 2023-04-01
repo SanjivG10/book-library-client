@@ -11,6 +11,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const router = useRouter();
     const [user, setUser] = useState(null);
+    const [fetched, setFetched] = useState(false);
 
     const { loading, data, refetch } = useQuery(ME, {
         onError: () => {
@@ -38,7 +39,7 @@ export const AuthProvider = ({ children }) => {
 
     if (loading) return <div>Loading...</div>;
 
-    return <AuthContext.Provider value={{ user, loading, setUser }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ user, loading, setUser, fetching: fetched }}>{children}</AuthContext.Provider>;
 };
 
 export const withAuth = (Component) => {
