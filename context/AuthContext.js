@@ -12,7 +12,6 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const router = useRouter();
     const [user, setUser] = useState(null);
-    const [fetched, setFetched] = useState(false);
 
     const { loading, data, refetch } = useQuery(ME, {
         onError: () => {
@@ -36,11 +35,11 @@ export const AuthProvider = ({ children }) => {
         else {
             setUser(null);
         }
-    }, [data, loading])
+    }, [data, loading, router.pathname])
 
     if (loading) return <Spinner />;
 
-    return <AuthContext.Provider value={{ user, loading, setUser, fetching: fetched }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ user, loading, setUser }}>{children}</AuthContext.Provider>;
 };
 
 export const withAuth = (Component) => {

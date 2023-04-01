@@ -15,12 +15,14 @@
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
     "graphql": "^16.6.0",
+    "graphql-ws": "^5.12.1",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.8",
     "react-icons": "^4.8.0",
     "react-infinite-scroll-component": "^6.1.0",
+    "uuid": "^9.0.0",
     "yup": "^1.0.2"
   },
   "devDependencies": {
