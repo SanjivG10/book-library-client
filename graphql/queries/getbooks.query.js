@@ -8,7 +8,6 @@ export const GET_BOOKS = gql`
       author
       date
       coverImage
-      collectionType
       user
     }
   }
@@ -24,7 +23,6 @@ export const GET_ALL_BOOKS = gql`
         author
         date
         coverImage
-        collectionType
       }
       totalCount
     }

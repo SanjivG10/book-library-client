@@ -9,7 +9,7 @@ export const GET_BOOK = gql`
       author
       date
       coverImage
-      collectionType
+      description
     }
   }
 `;

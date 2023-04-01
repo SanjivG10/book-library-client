@@ -1,9 +1,9 @@
 import { useMutation, useQuery } from '@apollo/client';
 import EachBookDetail from '@components/Book/EachBookDetail';
-import BookForm from '@components/BookForm';
 import { PAGE_URLS } from '@constants/urls';
 import { withAuth } from '@context/AuthContext';
-import { GET_BOOK, UPDATE_BOOK } from '@graphql/queries/getbook.query.js';
+import { UPDATE_BOOK } from '@graphql/mutations/updateBook.mutation';
+import { GET_BOOK } from '@graphql/queries/getbook.query.js';
 import { useRouter } from 'next/router';
 
 const ModifyBook = () => {

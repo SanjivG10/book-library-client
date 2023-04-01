@@ -27,19 +27,19 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
     });
 
 
-    // const watchCoverImage = watch("coverImage");
-    // useEffect(() => {
-    //     if (watchCoverImage) {
-    //         if (typeof watchCoverImage === "string") {
-    //             const image = BACKEND_URLS.IMAGE_URL + watchCoverImage;
-    //             setImage(image);
-    //         }
-    //         else if (watchCoverImage?.[0]) {
-    //             const fileUrl = URL.createObjectURL(watchCoverImage[0]);
-    //             setImage(fileUrl);
-    //         }
-    //     }
-    // }, [watchCoverImage])
+    const watchCoverImage = watch("coverImage");
+    useEffect(() => {
+        if (watchCoverImage) {
+            if (typeof watchCoverImage === "string") {
+                const image = BACKEND_URLS.IMAGE_URL + watchCoverImage;
+                setImage(image);
+            }
+            else if (watchCoverImage?.[0]) {
+                const fileUrl = URL.createObjectURL(watchCoverImage[0]);
+                setImage(fileUrl);
+            }
+        }
+    }, [watchCoverImage])
 
 
     const uploadCoverImage = async (file) => {
@@ -95,12 +95,26 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
                     <input
                         className={`shadow appearance-none ${errors.author ? 'border-red-500' : 'border-gray-200'
                             } rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                        id="title"
+                        id="author"
                         type="text"
                         {...register('author')}
                     />
                     {errors.author && (
                         <p className="text-red-500 text-xs italic mt-1">{errors.author.message}</p>
+                    )}
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="author">
+                        Description
+                    </label>
+                    <textarea
+                        className={`shadow appearance-none ${errors.description ? 'border-red-500' : 'border-gray-200'
+                            } rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+                        id="description"
+                        {...register('description')}
+                    />
+                    {errors.description && (
+                        <p className="text-red-500 text-xs italic mt-1">{errors.description.message}</p>
                     )}
                 </div>
                 <div className="mb-4">
@@ -110,7 +124,7 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
                     <input
                         className={`shadow appearance-none ${errors.date ? 'border-red-500' : 'border-gray-200'
                             } rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                        id="title"
+                        id="date"
                         type="date"
                         defaultValue={defaultDateString}
                         {...register('date')}
@@ -138,29 +152,10 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
                 </div>
                 {
                     image &&
-                    <div>
+                    <div className='m-2'>
                         <Image alt='cover' width={200} height={400} src={image} />
                     </div>
                 }
-                <div className="mb-6">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="collection">
-                        Collection
-                    </label>
-                    <select
-                        name="collectionType"
-                        className={`shadow appearance-none border ${errors.collectionType ? 'border-red-500' : 'border-gray-200'
-                            } rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    >
-                        <option value="">Select a collection</option>
-                        <option value="WANT_TO_READ">Want to read</option>
-                        <option value="READING">Reading</option>
-                        <option value="READ">Read</option>
-                    </select>
-                    {errors.collectionType && (
-                        <p className="text-red-500 text-xs italic mt-1">{errors.collectionType.message}</p>
-                    )}
-
-                </div>
                 <div className="flex items-center justify-between">
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

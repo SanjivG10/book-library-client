@@ -12,9 +12,9 @@ const AddBook = () => {
     const [addBook] = useMutation(ADD_BOOK);
 
     const onSubmit = async (data, image) => {
-        const { title, author, date, collectionType } = data;
+        const { title, author, date, description } = data;
         await addBook({
-            variables: { title, author, date: date.toISOString(), coverImage: image, collectionType }
+            variables: { title, author, date: date.toISOString(), coverImage: image, description }
         });
 
         router.push(PAGE_URLS.HOME);

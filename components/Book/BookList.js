@@ -1,8 +1,14 @@
 import { useQuery } from '@apollo/client';
 import { GET_ALL_BOOKS } from '@graphql/queries/getbooks.query';
 import { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import EachBookDetail from './EachBookDetail';
+import EachBook from './EachBook';
+
+
+const getUniqueItemsByKey = (items, key) => {
+    const arrayUniqueByKey = [...new Map(items.map(item =>
+        [item[key], item])).values()];
+    return arrayUniqueByKey;
+}
 
 
 const BooksList = () => {
@@ -16,7 +22,8 @@ const BooksList = () => {
 
     useEffect(() => {
         if (data?.getAllBooks) {
-            setBooks((prevBooks) => [...prevBooks, ...data.getAllBooks.items]);
+            const uniqueItems = getUniqueItemsByKey([...books, ...data.getAllBooks.items], "id");
+            setBooks(uniqueItems);
         }
     }, [data])
 
@@ -25,8 +32,6 @@ const BooksList = () => {
         const result = await fetchMore({
             variables: { page },
         });
-
-
 
         if (result.data.getAllBooks.totalCount > books.length) {
             setHasMore(true);
@@ -38,20 +43,14 @@ const BooksList = () => {
 
     if (error) return <div>Error loading books</div>;
 
-
     return (
-        <InfiniteScroll
-            dataLength={books.length}
-            next={fetchMoreBooks}
-            hasMore={hasMore}
-            loader={<div className="text-center my-4">Loading more books...</div>}
-        >
+        <div className='flex flex-col flex-wrap md:flex-row'>
             {books.map((book) => (
-                <EachBookDetail key={book.id} book={book} />
+                <EachBook key={book.id} book={book} />
             ))}
             {loading && <div>
                 loading...</div>}
-        </InfiniteScroll>
+        </div>
     );
 };
 
