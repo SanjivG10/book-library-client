@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import EachBook from '@components/Book/EachBook';
-import { useAuth } from "@context/AuthContext";
 import { GET_BOOKS } from '@graphql/queries/getbooks.query.js';
+import { useAuth } from '@hooks/useAuth.hook';
 import { useEffect, useState } from 'react';
 import { FaSortAlphaDown, FaSortAlphaUp, FaSortNumericDown, FaSortNumericUp } from 'react-icons/fa';
 

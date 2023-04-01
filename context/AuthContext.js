@@ -41,10 +41,6 @@ export const AuthProvider = ({ children }) => {
     return <AuthContext.Provider value={{ user, loading, setUser }}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = () => {
-    return React.useContext(AuthContext);
-};
-
 export const withAuth = (Component) => {
     return (props) => {
         const router = useRouter();

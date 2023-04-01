@@ -2,6 +2,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@ap
 import { setContext } from '@apollo/client/link/context';
 import Navbar from '@components/common/Navbar';
 import { AuthProvider } from '@context/AuthContext';
+import { NotificationProvider } from '@context/NotificationContext';
 
 import '@styles/globals.css';
 
@@ -28,8 +29,10 @@ const client = new ApolloClient({
 export default function App({ Component, pageProps }) {
   return <ApolloProvider client={client}>
     <AuthProvider>
-      <Navbar />
-      <Component {...pageProps} />
+      <NotificationProvider>
+        <Navbar />
+        <Component {...pageProps} />
+      </NotificationProvider>
     </AuthProvider>
   </ApolloProvider>
 }

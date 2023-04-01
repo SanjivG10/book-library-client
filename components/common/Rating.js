@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 
-const Rating = ({ value = 0 }) => {
+const Rating = ({ value = 0, onClick }) => {
     const [rating, setRating] = useState(value);
 
     const handleMouseEnter = (index) => {
@@ -9,11 +9,14 @@ const Rating = ({ value = 0 }) => {
     };
 
     const handleMouseLeave = () => {
-        setRating(0);
+        setRating(value);
     };
 
     const handleStarClick = (index) => {
         setRating(index + 1);
+        if (onClick) {
+            onClick(rating);
+        }
     };
 
     return (
