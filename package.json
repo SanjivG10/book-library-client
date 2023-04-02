@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "translate": "i18next --fail-on-warnings -c ./i18next-parser.config.js",
-    "jest": "jest --watch"
+    "jest": "jest --watch",
+    "test": "jest"
   },
   "dependencies": {
     "@apollo/client": "3.7.3",
