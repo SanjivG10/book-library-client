@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 const EachBook = () => {
     const router = useRouter();
     const bookId = router.query.id
-    const { loading, error, data } = useQuery(GET_BOOK, { variables: { bookId } });
+    const { loading, error, data } = useQuery(GET_BOOK, { variables: { bookId }, nextFetchPolicy: "no-cache" });
 
     if (loading) return <Spinner />
     if (error) return <Error error={error} />

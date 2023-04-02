@@ -27,6 +27,9 @@ const LiveBookUpdate = () => {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 gap-4">
+                    <h4 className='mt-2 text-center text-2xl font-semibold'>
+                        Live Notifications
+                    </h4>
                     {notifications.map((notification) => (
                         <div
                             key={notification.id}
