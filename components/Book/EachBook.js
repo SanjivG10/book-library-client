@@ -1,4 +1,4 @@
-import { BACKEND_URLS, PAGE_URLS } from '@constants/urls'
+import { BACKEND_URLS, PAGE_URLS } from '@/constants/urls'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 

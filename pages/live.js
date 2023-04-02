@@ -1,6 +1,6 @@
 import { useSubscription } from '@apollo/client';
 import { FaStar } from 'react-icons/fa';
-import { BOOK_UPDATE } from '@graphql/subscriptions/bookUpdate.subscription';
+import { BOOK_UPDATE } from '@/graphql/subscriptions/bookUpdate.subscription';
 import React, { useEffect, useState } from 'react'
 import { v4 } from "uuid";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';

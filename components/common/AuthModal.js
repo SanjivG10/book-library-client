@@ -1,4 +1,4 @@
-import { PAGE_URLS } from '@constants/urls';
+import { PAGE_URLS } from '@/constants/urls';
 import { useRouter } from 'next/router';
 import React from 'react'
 import { useTranslation } from 'next-i18next';

@@ -8,14 +8,14 @@ import {
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useQuery } from "@apollo/client";
-import EachBook from "@components/Book/EachBook";
-import EmptyBookList from "@components/Book/EmptyBookList";
-import Error from "@components/common/Error";
-import Spinner from "@components/common/Spinner";
-import { MAX_DESCRIPTION_LENGTH } from "@constants/book";
-import { GET_USER_BOOKS } from "@graphql/queries/getbooks.query";
-import { useAuth } from "@hooks/useAuth.hook";
-import { getUniqueItemsByKey } from "@lib/utils";
+import EachBook from "@/components/Book/EachBook";
+import EmptyBookList from "@/components/Book/EmptyBookList";
+import Error from "@/components/common/Error";
+import Spinner from "@/components/common/Spinner";
+import { MAX_DESCRIPTION_LENGTH } from "@/constants/book";
+import { GET_USER_BOOKS } from "@/graphql/queries/getbooks.query";
+import { useAuth } from "@/hooks/useAuth.hook";
+import { getUniqueItemsByKey } from "@/lib/utils";
 import { HiBuildingLibrary } from "react-icons/hi2";
 
 

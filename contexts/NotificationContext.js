@@ -1,5 +1,5 @@
 
-import AuthModal from '@components/common/AuthModal';
+import AuthModal from '@/components/common/AuthModal';
 import { createContext, useState } from 'react';
 
 

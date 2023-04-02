@@ -2,11 +2,11 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useMutation } from '@apollo/client';
-import LOGIN from '@graphql/mutations/login.mutation';
+import LOGIN from '@/graphql/mutations/login.mutation';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { loginSchema } from '@lib/yup-schemas/auth.schema';
+import { loginSchema } from '@/lib/yup-schemas/auth.schema';
 import Link from 'next/link';
-import { PAGE_URLS } from '@constants/urls';
+import { PAGE_URLS } from '@/constants/urls';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 

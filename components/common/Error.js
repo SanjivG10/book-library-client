@@ -1,4 +1,4 @@
-import { PAGE_URLS } from '@constants/urls';
+import { PAGE_URLS } from '@/constants/urls';
 import Link from 'next/link';
 import { FaExclamationCircle } from 'react-icons/fa';
 

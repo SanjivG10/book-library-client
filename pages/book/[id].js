@@ -1,7 +1,7 @@
-import EachBookDetail from '@components/Book/EachBookDetail';
-import Error from '@components/common/Error';
-import Spinner from '@components/common/Spinner';
-import { getSingleBook } from '@graphql/services';
+import EachBookDetail from '@/components/Book/EachBookDetail';
+import Error from '@/components/common/Error';
+import Spinner from '@/components/common/Spinner';
+import { getSingleBook } from '@/graphql/services';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 

@@ -3,7 +3,7 @@ import { setContext } from '@apollo/client/link/context';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createClient } from 'graphql-ws';
-import { BACKEND_URL } from '@constants/urls';
+import { BACKEND_URL } from '@/constants/urls';
 
 
 const httpLink = createHttpLink({

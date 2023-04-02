@@ -1,9 +1,9 @@
 
 import { useMutation } from '@apollo/client';
-import { PAGE_URLS } from '@constants/urls';
-import SIGNUP from '@graphql/mutations/signup.mutation';
+import { PAGE_URLS } from '@/constants/urls';
+import SIGNUP from '@/graphql/mutations/signup.mutation';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { signupSchema } from '@lib/yup-schemas/auth.schema';
+import { signupSchema } from '@/lib/yup-schemas/auth.schema';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';

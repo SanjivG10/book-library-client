@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client';
-import Spinner from '@components/common/Spinner';
-import { PAGE_URLS } from '@constants/urls';
-import { ME } from '@graphql/queries/me.query';
-import { UNPROTECTED_ROUTES } from '@lib/routes/urls';
+import Spinner from '@/components/common/Spinner';
+import { PAGE_URLS } from '@/constants/urls';
+import { ME } from '@/graphql/queries/me.query';
+import { UNPROTECTED_ROUTES } from '@/lib/routes/urls';
 import { useRouter } from 'next/router';
 import React, { createContext, useEffect, useState } from 'react';
 

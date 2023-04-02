@@ -1,14 +1,14 @@
 
 import { useLazyQuery, useMutation } from '@apollo/client';
-import Rating from '@components/common/Rating';
-import ReadingDropdownOption from '@components/common/ReadingDropdownOption';
-import { BACKEND_URLS } from '@constants/urls';
-import { NotificationContext } from '@contexts/NotificationContext';
-import FINISH_BOOK from '@graphql/mutations/finishBook.mutation';
-import RATE_BOOK from '@graphql/mutations/rateBook.mutation';
-import UPDATE_BOOK_SHELF from '@graphql/mutations/updateShelf.mutation';
-import { USER_BOOK_STATUS } from '@graphql/queries/userBookStatus.query';
-import { useAuth } from '@hooks/useAuth.hook';
+import Rating from '@/components/common/Rating';
+import ReadingDropdownOption from '@/components/common/ReadingDropdownOption';
+import { BACKEND_URLS } from '@/constants/urls';
+import { NotificationContext } from '@/contexts/NotificationContext';
+import FINISH_BOOK from '@/graphql/mutations/finishBook.mutation';
+import RATE_BOOK from '@/graphql/mutations/rateBook.mutation';
+import UPDATE_BOOK_SHELF from '@/graphql/mutations/updateShelf.mutation';
+import { USER_BOOK_STATUS } from '@/graphql/queries/userBookStatus.query';
+import { useAuth } from '@/hooks/useAuth.hook';
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from 'next-i18next';
 

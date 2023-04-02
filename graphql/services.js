@@ -1,4 +1,4 @@
-import { client } from "@graphql/client"
+import { client } from "@/graphql/client"
 import { GET_ALL_BOOKS } from "./queries/getbooks.query"
 import { GET_BOOK } from "./queries/getbook.query";
 

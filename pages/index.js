@@ -1,11 +1,11 @@
-import BooksList from "@components/Book/BookList";
-import { PAGE_URLS } from "@constants/urls";
-import { useAuth } from "@hooks/useAuth.hook";
+import BooksList from "@/components/Book/BookList";
+import { PAGE_URLS } from "@/constants/urls";
+import { useAuth } from "@/hooks/useAuth.hook";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
 import { HiBuildingLibrary } from "react-icons/hi2";
 import { BsRocketFill } from "react-icons/bs";
-import { getAllBooksForHomePage } from "@graphql/services";
+import { getAllBooksForHomePage } from "@/graphql/services";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from "next-i18next";
 

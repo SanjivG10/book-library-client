@@ -1,8 +1,8 @@
 import axios from "axios";
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { BACKEND_URLS } from '@constants/urls';
-import { addBookSchema, editBookSchema } from '@lib/yup-schemas/book.schema';
+import { BACKEND_URLS } from '@/constants/urls';
+import { addBookSchema, editBookSchema } from '@/lib/yup-schemas/book.schema';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';

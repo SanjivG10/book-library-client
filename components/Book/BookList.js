@@ -1,9 +1,9 @@
 import { useQuery } from '@apollo/client';
-import Error from '@components/common/Error';
-import Spinner from '@components/common/Spinner';
-import { MAX_DESCRIPTION_LENGTH } from '@constants/book';
-import { GET_ALL_BOOKS } from '@graphql/queries/getbooks.query';
-import { getUniqueItemsByKey } from '@lib/utils';
+import Error from '@/components/common/Error';
+import Spinner from '@/components/common/Spinner';
+import { MAX_DESCRIPTION_LENGTH } from '@/constants/book';
+import { GET_ALL_BOOKS } from '@/graphql/queries/getbooks.query';
+import { getUniqueItemsByKey } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import EachBook from './EachBook';
