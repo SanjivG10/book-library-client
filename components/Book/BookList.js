@@ -10,23 +10,24 @@ import EachBook from './EachBook';
 
 
 
-const BooksList = () => {
+const BooksList = ({ data, error }) => {
     const [page, setPage] = useState(1);
-    const { data, error, fetchMore } = useQuery(GET_ALL_BOOKS, {
-        variables: { limit: 2, page },
+    const { fetchMore, data: newData, error: newError } = useQuery(GET_ALL_BOOKS, {
+        variables: page
     });
-    const [hasMore, setHasMore] = useState(false);
+    const [hasMore, setHasMore] = useState(data?.getAllBooks?.hasMore || false);
 
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
-        if (data?.getAllBooks) {
-            const allBooks = [...books, ...data.getAllBooks.books].map((book) => { return { ...book, description: book.description.substring(0, MAX_DESCRIPTION_LENGTH) } });
+        const anyData = newData || data;
+        if (anyData?.getAllBooks) {
+            const allBooks = [...books, ...anyData.getAllBooks.books].map((book) => { return { ...book, description: book.description.substring(0, MAX_DESCRIPTION_LENGTH) } });
 
             const uniqueItems = getUniqueItemsByKey(allBooks, "id");
             setBooks(uniqueItems);
         }
-    }, [data])
+    }, [data, newData])
 
     const fetchMoreBooks = async () => {
         setPage((prevPage) => prevPage + 1);
@@ -37,7 +38,7 @@ const BooksList = () => {
         setHasMore(result.data.getAllBooks.hasMore)
     };
 
-    if (error) return <Error error={error} />
+    if (error || newError) return <Error error={newError || error} />
 
     return (
         <>

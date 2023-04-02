@@ -5,8 +5,20 @@ import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
 import { HiBuildingLibrary } from "react-icons/hi2";
 import { BsRocketFill } from "react-icons/bs";
+import { getAllBooksForHomePage } from "@graphql/services";
 
-const Home = () => {
+
+export async function getServerSideProps() {
+
+  const bookResponse = await getAllBooksForHomePage();
+  return {
+    props: {
+      bookResponse
+    },
+  }
+}
+
+const Home = ({ bookResponse }) => {
   const { user } = useAuth();
   return (
     <>
@@ -38,7 +50,7 @@ const Home = () => {
         }
 
       </div>
-      <BooksList />
+      <BooksList {...bookResponse} />
     </>
   )
 }
