@@ -85,6 +85,7 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
                         id="title"
                         type="text"
                         {...register('title')}
+                        data-testid="title"
                     />
                     {errors.title && (
                         <p className="text-red-500 text-xs italic mt-1">{errors.title.message}</p>
@@ -101,6 +102,7 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
                         id="author"
                         type="text"
                         {...register('author')}
+                        data-testid="author"
                     />
                     {errors.author && (
                         <p className="text-red-500 text-xs italic mt-1">{errors.author.message}</p>
@@ -115,6 +117,7 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
                             } rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
                         id="description"
                         {...register('description')}
+                        data-testid="description"
                     />
                     {errors.description && (
                         <p className="text-red-500 text-xs italic mt-1">{errors.description.message}</p>
@@ -131,6 +134,7 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
                         type="date"
                         defaultValue={defaultDateString}
                         {...register('date')}
+                        data-testid="date"
                     />
                     {errors.date && (
                         <p className="text-red-500 text-xs italic mt-1">{errors.date.message}</p>
@@ -147,6 +151,7 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
                         type="file"
                         accept="image/*"
                         {...register('coverImage')}
+                        data-testid="coverImage"
                     />
 
                     {errors.coverImage && (
@@ -163,6 +168,7 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="submit"
+                        data-testid="submit"
                     >
                         {
                             edit ? t("save") : t("add book")

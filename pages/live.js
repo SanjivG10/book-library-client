@@ -34,7 +34,7 @@ const LiveBookUpdate = () => {
     return (
         <div className="container mx-auto">
             {notifications.length === 0 ? (
-                <div className="text-center py-8 text-gray-400">
+                <div data-testid="no-notification" className="text-center py-8 text-gray-400">
                     <p className="text-xl font-semibold">{t("No Live Notifications!")}</p>
                 </div>
             ) : (
@@ -44,6 +44,7 @@ const LiveBookUpdate = () => {
                     </h4>
                     {notifications.map((notification) => (
                         <div
+                            data-testid="notification"
                             key={notification.id}
                             className="flex items-center justify-between bg-white p-4 rounded-lg shadow-md"
                         >

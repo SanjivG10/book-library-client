@@ -6,7 +6,6 @@ import Home from '@/pages/index';
 import { MockedProvider } from '@apollo/client/testing';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
 
 jest.mock('next/router', () => ({
     useRouter() {

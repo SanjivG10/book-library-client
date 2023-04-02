@@ -7,7 +7,7 @@ const EachBook = ({ book }) => {
     const { t } = useTranslation();
 
     return (
-        <div className='bg-white shadow-md rounded-lg p-1 m-2'>
+        <div className='bg-white shadow-md rounded-lg p-1 m-2' data-testid="each-book-brief">
             <div className='flex flex-col sm:flex-row'>
                 <div className='flex-shrink-0'>
                     <Link href={PAGE_URLS.EACH_BOOK + "/" + book.id}>
