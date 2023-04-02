@@ -33,7 +33,7 @@ const Navbar = () => {
                     <div className='flex'>
                         {!user ? (
                             <Link href={PAGE_URLS.LOGIN}>
-                                <div className="text-white px-3 py-2 rounded-md text-sm font-medium">
+                                <div data-testid="loggedout" className="text-white px-3 py-2 rounded-md text-sm font-medium">
                                     <FaSignInAlt className="inline" />
                                     {t("Login")}
                                 </div>
@@ -42,7 +42,7 @@ const Navbar = () => {
                             <button onClick={() => {
                                 logout();
                             }} >
-                                <div className="text-white px-3 py-2 rounded-md text-sm font-medium">
+                                <div data-testid="loggedin" className="text-white px-3 py-2 rounded-md text-sm font-medium">
                                     <FaSignOutAlt className="inline" />                                {t("Logout")}
                                 </div>
                             </button>

@@ -56,6 +56,7 @@ const SignupPage = () => {
                                 {...register('email')}
                                 id="email"
                                 type="email"
+                                data-testid="email"
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder={t("Email")}
@@ -70,6 +71,7 @@ const SignupPage = () => {
                                 {...register('username')}
                                 id="username"
                                 type="text"
+                                data-testid="username"
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder={t("Username")}
@@ -84,6 +86,7 @@ const SignupPage = () => {
                                 {...register('password')}
                                 id="password"
                                 type="password"
+                                data-testid="password"
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder={t("Password")}
@@ -94,6 +97,7 @@ const SignupPage = () => {
 
                     <div>
                         <button
+                            data-testid="submit"
                             type="submit"
                             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >

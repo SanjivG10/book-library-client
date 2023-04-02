@@ -27,7 +27,7 @@ const Home = ({ bookResponse }) => {
   return (
     <>
 
-      <div className='m-2 flex items-center'>
+      <div data-testid="home" className='m-2 flex items-center'>
         <Link href={PAGE_URLS.LIVE}>
           <button className="bg-red-500 ml-2 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded w-48">
             <BsRocketFill className="inline-block mr-2" />
@@ -50,9 +50,7 @@ const Home = ({ bookResponse }) => {
               </button>
             </Link>
           </>
-
         }
-
       </div>
       <BooksList {...bookResponse} />
     </>

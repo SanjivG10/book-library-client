@@ -48,9 +48,9 @@ const BooksList = ({ data, error }) => {
                 hasMore={hasMore}
                 loader={<Spinner />}
             >
-                <div className='flex flex-col'>
+                <div data-testid="booklist-container" className='flex flex-col'>
                     {books.map((book) => (
-                        <div key={book.id} className='my-1'>
+                        <div data-testid="each-book" key={book.id} className='my-1'>
                             <EachBook key={book.id} book={book} />
                         </div>
                     ))}
