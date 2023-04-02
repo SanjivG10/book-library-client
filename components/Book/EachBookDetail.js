@@ -3,7 +3,7 @@ import { useLazyQuery, useMutation } from '@apollo/client';
 import Rating from '@components/common/Rating';
 import ReadingDropdownOption from '@components/common/ReadingDropdownOption';
 import { BACKEND_URLS } from '@constants/urls';
-import { NotificationContext } from '@context/NotificationContext';
+import { NotificationContext } from '@contexts/NotificationContext';
 import FINISH_BOOK from '@graphql/mutations/finishBook.mutation';
 import RATE_BOOK from '@graphql/mutations/rateBook.mutation';
 import UPDATE_BOOK_SHELF from '@graphql/mutations/updateShelf.mutation';

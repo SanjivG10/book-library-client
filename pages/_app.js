@@ -1,7 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import Navbar from '@components/common/Navbar';
-import { AuthProvider } from '@context/AuthContext';
-import { NotificationProvider } from '@context/NotificationContext';
+import { AuthProvider } from '@contexts/AuthContext';
+import { NotificationProvider } from '@contexts/NotificationContext';
 import { client } from "@graphql/client";
 import { appWithTranslation } from 'next-i18next'
 import '@styles/globals.css';
