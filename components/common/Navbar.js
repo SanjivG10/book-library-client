@@ -3,10 +3,14 @@ import { useAuth } from '@hooks/useAuth.hook';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FaHome, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
+import LocaleSelector from './LocaleSelector';
+import { useTranslation } from 'next-i18next';
 
 const Navbar = () => {
     const { user, setUser } = useAuth();
     const router = useRouter();
+
+    const { t } = useTranslation();
 
     const logout = () => {
         localStorage.removeItem("token");
@@ -21,15 +25,17 @@ const Navbar = () => {
                     <div className="flex items-center">
                         <Link href={PAGE_URLS.HOME}>
                             <div className="text-white px-3 py-2 rounded-md text-sm font-medium">
-                                <FaHome className="inline" /> Home
+                                <FaHome className="inline" />
+                                {t("Home")}
                             </div>
                         </Link>
                     </div>
-                    <div>
+                    <div className='flex'>
                         {!user ? (
                             <Link href={PAGE_URLS.LOGIN}>
                                 <div className="text-white px-3 py-2 rounded-md text-sm font-medium">
-                                    <FaSignInAlt className="inline" /> Login
+                                    <FaSignInAlt className="inline" />
+                                    {t("Login")}
                                 </div>
                             </Link>
                         ) : (
@@ -37,12 +43,14 @@ const Navbar = () => {
                                 logout();
                             }} >
                                 <div className="text-white px-3 py-2 rounded-md text-sm font-medium">
-                                    <FaSignOutAlt className="inline" /> Logout
+                                    <FaSignOutAlt className="inline" />                                {t("Logout")}
                                 </div>
                             </button>
                         )}
+                        <LocaleSelector />
                     </div>
                 </div>
+
             </div>
         </nav>
     );

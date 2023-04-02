@@ -3,10 +3,11 @@ import Navbar from '@components/common/Navbar';
 import { AuthProvider } from '@context/AuthContext';
 import { NotificationProvider } from '@context/NotificationContext';
 import { client } from "@graphql/client";
+import { appWithTranslation } from 'next-i18next'
 import '@styles/globals.css';
 
 
-export default function App({ Component, pageProps }) {
+const App = ({ Component, pageProps }) => {
   return <ApolloProvider client={client}>
     <AuthProvider>
       <NotificationProvider>
@@ -16,3 +17,6 @@ export default function App({ Component, pageProps }) {
     </AuthProvider>
   </ApolloProvider>
 }
+
+export default appWithTranslation(App)
+

@@ -2,14 +2,17 @@ import EachBookDetail from '@components/Book/EachBookDetail';
 import Error from '@components/common/Error';
 import Spinner from '@components/common/Spinner';
 import { getSingleBook } from '@graphql/services';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 
 export async function getServerSideProps(context) {
 
-    const bookId = context.query.id
+    const bookId = context.query.id;
+    const locale = context.locale;
     const bookResponse = await getSingleBook(bookId);
     return {
         props: {
+            ...(await serverSideTranslations(locale)),
             ...bookResponse
         },
     }

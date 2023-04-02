@@ -1,7 +1,10 @@
 import { BACKEND_URLS, PAGE_URLS } from '@constants/urls'
 import Link from 'next/link'
+import { useTranslation } from 'next-i18next'
 
 const EachBook = ({ book }) => {
+
+    const { t } = useTranslation();
 
     return (
         <div className='bg-white shadow-md rounded-lg p-1 m-2'>
@@ -27,7 +30,7 @@ const EachBook = ({ book }) => {
                         </div>
                         <Link href={PAGE_URLS.EACH_BOOK + "/" + book.id}>
                             <button className='bg-gray-800 hover:bg-gray-700 my-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white py-2 px-4 rounded-md'>
-                                Read more
+                                {t("Read More")}
                             </button>
                         </Link>
                     </div>

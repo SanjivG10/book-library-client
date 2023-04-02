@@ -10,6 +10,7 @@ import UPDATE_BOOK_SHELF from '@graphql/mutations/updateShelf.mutation';
 import { USER_BOOK_STATUS } from '@graphql/queries/userBookStatus.query';
 import { useAuth } from '@hooks/useAuth.hook';
 import { useContext, useEffect, useState } from "react";
+import { useTranslation } from 'next-i18next';
 
 const EachBookDetail = ({ book }) => {
 
@@ -28,6 +29,7 @@ const EachBookDetail = ({ book }) => {
     const [userBookSelectedOption, setUserSelectedOption] = useState('');
     const { user } = useAuth();
     const { setShowAuthModal } = useContext(NotificationContext);
+    const { t } = useTranslation();
 
     const fetchCurrentUserBookStatus = async () => {
         const response = await getCurrentUserStatus({
@@ -122,7 +124,7 @@ const EachBookDetail = ({ book }) => {
                         <div className="flex items-center mb-4">
 
                             <button onClick={onFinish} className="bg-indigo-800 text-white py-2 px-4 mr-2 rounded-md">
-                                {isBookFinished ? "Finished" : "Finish"}
+                                {isBookFinished ? t("Finished") : t("Finish")}
                             </button>
                             <Rating value={currentUserRating} onClick={onUserRating} />
                         </div>
@@ -132,7 +134,8 @@ const EachBookDetail = ({ book }) => {
 
                     </div>
                     <p className="text-gray-600 text-sm ml-auto">
-                        Published on <span className='font-semibold'> {dateString}</span>
+                        {t("Published on")}
+                        <span className='font-semibold mx-1'> {dateString}</span>
                     </p>
                 </div>
 

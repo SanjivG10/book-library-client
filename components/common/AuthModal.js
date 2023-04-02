@@ -1,9 +1,11 @@
 import { PAGE_URLS } from '@constants/urls';
 import { useRouter } from 'next/router';
 import React from 'react'
+import { useTranslation } from 'next-i18next';
 
 const AuthModal = ({ showModal, setShowModal }) => {
     const router = useRouter();
+    const { t } = useTranslation();
     return (
         showModal ? <div
             className={`fixed z-10 inset-0 overflow-y-auto}`}
@@ -12,10 +14,10 @@ const AuthModal = ({ showModal, setShowModal }) => {
                 <div className="bg-white rounded-lg w-full max-w-md mx-auto shadow-lg z-50">
                     <div className="px-6 py-4">
                         <div className="text-lg font-medium text-gray-900 mb-2">
-                            Please login
+                            {t("Please Login")}
                         </div>
                         <p className="text-sm text-gray-500 mb-4">
-                            You must be logged in to access this feature.
+                            {t("You must be logged in to access this feature.")}
                         </p>
                         <div className='flex justify-between'>
                             <button
@@ -25,7 +27,8 @@ const AuthModal = ({ showModal, setShowModal }) => {
                                     setShowModal(false);
                                 }}
                             >
-                                Login
+
+                                {t("Login")}
                             </button>
                             <button
                                 className="bg-red-500 text-white px-4 py-2 rounded-md"
@@ -33,7 +36,8 @@ const AuthModal = ({ showModal, setShowModal }) => {
                                     setShowModal(false);
                                 }}
                             >
-                                Close
+
+                                {t("Close")}
                             </button>
                         </div>
                     </div>

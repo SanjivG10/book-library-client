@@ -7,6 +7,17 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '@lib/yup-schemas/auth.schema';
 import Link from 'next/link';
 import { PAGE_URLS } from '@constants/urls';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+
+export async function getStaticProps({ locale = "en" }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale)),
+        },
+    }
+}
 
 const LoginPage = () => {
     const {
@@ -17,6 +28,7 @@ const LoginPage = () => {
 
     const router = useRouter();
     const [login, { error }] = useMutation(LOGIN);
+    const { t } = useTranslation();
 
     const onSubmit = async ({ username, password }) => {
         try {
@@ -32,13 +44,13 @@ const LoginPage = () => {
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
                 <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">{t("Sign in to your account")}</h2>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
                             <label htmlFor="username" className="sr-only">
-                                Username
+                                {t("Username")}
                             </label>
                             <input
                                 {...register('username')}
@@ -46,13 +58,13 @@ const LoginPage = () => {
                                 type="text"
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Username"
+                                placeholder={t("Username")}
                             />
                             {errors.username && <p className="text-red-500">{errors.username.message}</p>}
                         </div>
                         <div>
                             <label htmlFor="password" className="sr-only">
-                                Password
+                                {t("Password")}
                             </label>
                             <input
                                 {...register('password')}
@@ -60,7 +72,7 @@ const LoginPage = () => {
                                 type="password"
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Password"
+                                placeholder={t("Password")}
                             />
                             {errors.password && <p className="text-red-500">{errors.password.message}</p>}
                         </div>
@@ -71,7 +83,7 @@ const LoginPage = () => {
                             type="submit"
                             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
-                            Sign in
+                            {t("Sign in")}
                         </button>
                     </div>
 
@@ -84,7 +96,7 @@ const LoginPage = () => {
                     <div>
                         <Link href={PAGE_URLS.SIGNUP}>
                             <div className='text-center text-indigo-600'>
-                                Don't have an account? Sign up.
+                                {t("Don't have an account? Sign up.")}
                             </div>
                         </Link>
                     </div>

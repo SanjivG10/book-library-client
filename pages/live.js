@@ -1,8 +1,17 @@
 import { useSubscription } from '@apollo/client';
 import { FaStar } from 'react-icons/fa';
 import { BOOK_UPDATE } from '@graphql/subscriptions/bookUpdate.subscription';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useTransition } from 'react'
 import { v4 } from "uuid";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+export async function getStaticProps({ locale = "en" }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale)),
+        },
+    }
+}
 
 const LiveBookUpdate = () => {
     const { data } = useSubscription(
@@ -19,16 +28,18 @@ const LiveBookUpdate = () => {
         }
     }, [data]);
 
+    const { t } = useTransition();
+
     return (
         <div className="container mx-auto">
             {notifications.length === 0 ? (
                 <div className="text-center py-8 text-gray-400">
-                    <p className="text-xl font-semibold">No Live Notifications!</p>
+                    <p className="text-xl font-semibold">{t("No Live Notifications!")}</p>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 gap-4">
                     <h4 className='mt-2 text-center text-2xl font-semibold'>
-                        Live Notifications
+                        {t("Live Notifications")}
                     </h4>
                     {notifications.map((notification) => (
                         <div

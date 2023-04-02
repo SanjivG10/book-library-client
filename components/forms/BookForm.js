@@ -1,13 +1,16 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import axios from "axios";
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { BACKEND_URLS } from '@constants/urls';
 import { addBookSchema, editBookSchema } from '@lib/yup-schemas/book.schema';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'next-i18next';
 
 const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
+
+    const { t } = useTranslation();
 
     const currentDate = edit && defaultValues?.date ? new Date(defaultValues.date) : new Date();
     const defaultDateString = currentDate.toISOString().substring(0, 10);
@@ -74,7 +77,7 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
             <form onSubmit={handleSubmit(submitForm)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
-                        Title
+                        {t("title")}
                     </label>
                     <input
                         className={`shadow appearance-none ${errors.title ? 'border-red-500' : 'border-gray-200'
@@ -90,7 +93,7 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
 
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="author">
-                        Author
+                        {t("author")}
                     </label>
                     <input
                         className={`shadow appearance-none ${errors.author ? 'border-red-500' : 'border-gray-200'
@@ -105,7 +108,7 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="author">
-                        Description
+                        {t("description")}
                     </label>
                     <textarea
                         className={`shadow appearance-none ${errors.description ? 'border-red-500' : 'border-gray-200'
@@ -119,7 +122,7 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date">
-                        Date
+                        {t("date")}
                     </label>
                     <input
                         className={`shadow appearance-none ${errors.date ? 'border-red-500' : 'border-gray-200'
@@ -135,7 +138,7 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="coverImage">
-                        Cover Image
+                        {t("cover Image")}
                     </label>
                     <input
                         className={`shadow appearance-none ${errors.coverImage ? 'border-red-500' : 'border-gray-200'
@@ -162,7 +165,7 @@ const BookForm = ({ onSubmit, defaultValues = {}, edit = false }) => {
                         type="submit"
                     >
                         {
-                            edit ? "Save" : "Add Book"
+                            edit ? t("save") : t("add book")
                         }
                     </button>
                 </div>

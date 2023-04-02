@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "translate": "i18next --fail-on-warnings -c ./i18next-parser.config.js"
   },
   "dependencies": {
     "@apollo/client": "3.7.3",
@@ -16,10 +17,13 @@
     "eslint-config-next": "13.2.4",
     "graphql": "^16.6.0",
     "graphql-ws": "^5.12.1",
+    "i18next": "^22.4.13",
     "next": "13.2.4",
+    "next-i18next": "^13.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.8",
+    "react-i18next": "^12.2.0",
     "react-icons": "^4.8.0",
     "react-infinite-scroll-component": "^6.1.0",
     "uuid": "^9.0.0",
