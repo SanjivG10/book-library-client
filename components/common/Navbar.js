@@ -13,9 +13,9 @@ const Navbar = () => {
     const { t } = useTranslation();
 
     const logout = () => {
+        setUser(null);
         localStorage.removeItem("token");
         router.push(PAGE_URLS.LOGIN);
-        setUser(null);
     }
 
     return (

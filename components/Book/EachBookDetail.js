@@ -42,15 +42,27 @@ const EachBookDetail = ({ book }) => {
     const { t } = useTranslation();
 
     useEffect(() => {
-        (async () => {
-            const response = await refetch();
-            const { collectionType = "", finished = false, rating = 0 } = response?.data?.userBookStatus || {};
-            setCurrentUserRating(rating);
-            setUserSelectedOption(collectionType);
-            setIsBookFinished(finished);
-        })();
+        if (user) {
+            (async () => {
+                try {
+                    const response = await refetch();
+                    const { collectionType = "", finished = false, rating = 0 } = response?.data?.userBookStatus || {};
+                    setCurrentUserRating(rating);
+                    setUserSelectedOption(collectionType);
+                    setIsBookFinished(finished);
+                }
+                catch {
+                    console.log("error fetching")
+                }
+            })();
+        }
+        else {
+            setCurrentUserRating(0);
+            setUserSelectedOption(null);
+            setIsBookFinished(false);
+        }
 
-    }, [router.pathname])
+    }, [router.pathname, user])
 
     useEffect(() => {
         if (data) {

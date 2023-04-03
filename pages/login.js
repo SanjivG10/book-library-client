@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { PAGE_URLS } from '@/constants/urls';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useAuth } from '@/hooks/useAuth.hook';
 
 
 export async function getStaticProps({ locale = "en" }) {
@@ -29,10 +30,12 @@ const LoginPage = () => {
     const router = useRouter();
     const [login, { error }] = useMutation(LOGIN);
     const { t } = useTranslation();
+    const { setUser } = useAuth();
 
     const onSubmit = async ({ username, password }) => {
         try {
             const { data } = await login({ variables: { username, password } });
+            setUser(data?.login);
             localStorage.setItem('token', data.login.token);
             router.push(PAGE_URLS.HOME);
         } catch (err) {

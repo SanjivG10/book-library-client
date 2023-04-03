@@ -9,6 +9,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { useAuth } from '@/hooks/useAuth.hook';
 
 export async function getStaticProps({ locale = "en" }) {
     return {
@@ -27,10 +28,12 @@ const SignupPage = () => {
 
     const router = useRouter();
     const [signup, { error }] = useMutation(SIGNUP);
+    const { setUser } = useAuth();
 
     const onSubmit = async (variables) => {
         try {
             const response = await signup({ variables });
+            setUser(response.data?.register);
             localStorage.setItem('token', response.data.register.token);
             router.push(PAGE_URLS.HOME);
         } catch (err) {

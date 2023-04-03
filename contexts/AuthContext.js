@@ -24,18 +24,26 @@ export const AuthProvider = ({ children }) => {
     });
 
     useEffect(() => {
-        refetch();
+        (async () => {
+            const token = localStorage.getItem("token");
+            if (token) {
+                await refetch();
+            }
+            else {
+                setUser(null);
+            }
+        })();
     }, [router.pathname])
 
 
     useEffect(() => {
-        if (data && data.me) {
+        if (data && !loading && data.me) {
             setUser(data.me);
         }
         else {
             setUser(null);
         }
-    }, [data, loading, router.pathname])
+    }, [data, loading])
 
     if (loading) return <Spinner />;
 
