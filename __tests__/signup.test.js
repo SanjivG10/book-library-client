@@ -7,6 +7,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import SIGNUP from '@/graphql/mutations/signup.mutation';
 import SignupPage from '@/pages/signup';
 import '@testing-library/jest-dom';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 jest.mock('next/router', () => ({
     useRouter() {
@@ -61,7 +62,9 @@ describe('Sign up page', () => {
     it('logs in user', async () => {
         render(
             <MockedProvider mocks={mocks}>
-                <SignupPage />
+                <AuthProvider>
+                    <SignupPage />
+                </AuthProvider>
             </MockedProvider>
         )
 

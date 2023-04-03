@@ -47,6 +47,7 @@ describe('Live Page', () => {
             result: {
                 data: {
                     bookUpdate: {
+                        id: "1",
                         title: "Hello",
                         date: new Date().toISOString(),
                         username: "sanjiv",

@@ -2,13 +2,14 @@
 
 
 import { MockedProvider } from '@apollo/client/testing';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 
 
-import BookShelfPage from "@/pages/library"
-import '@testing-library/jest-dom';
-import { GET_USER_BOOKS } from '@/graphql/queries/getbooks.query';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { GET_USER_BOOKS } from '@/graphql/queries/getbooks.query';
+import BookShelfPage from "@/pages/library";
+import '@testing-library/jest-dom';
+import { ME } from '@/graphql/queries/me.query';
 
 jest.mock('next/router', () => ({
     useRouter() {
@@ -73,6 +74,19 @@ describe('Book Shelf Page', () => {
                 },
             },
         },
+        {
+            request: {
+                query: ME,
+            },
+            result: {
+                data: {
+                    me: {
+                        id: "id",
+                        username: "sanjiv",
+                    }
+                },
+            },
+        },
     ];
 
     it('no books fetched', async () => {
@@ -91,6 +105,19 @@ describe('Book Shelf Page', () => {
                         getUserBooks: {
                             books: [],
                             hasMore: false
+                        }
+                    },
+                },
+            },
+            {
+                request: {
+                    query: ME,
+                },
+                result: {
+                    data: {
+                        me: {
+                            id: "id",
+                            username: "sanjiv",
                         }
                     },
                 },
