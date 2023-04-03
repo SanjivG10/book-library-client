@@ -22,11 +22,11 @@ const AddBook = () => {
 
     const onSubmit = async (data, image) => {
         const { title, author, date, description } = data;
-        await addBook({
+        const bookResult = await addBook({
             variables: { title, author, date: date.toISOString(), coverImage: image, description }
         });
 
-        router.push(PAGE_URLS.HOME);
+        router.push(PAGE_URLS.EACH_BOOK + "/" + bookResult.data.addBook.id);
     }
 
     return (

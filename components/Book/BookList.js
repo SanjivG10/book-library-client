@@ -7,22 +7,28 @@ import { getUniqueItemsByKey } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import EachBook from './EachBook';
+import { useRouter } from 'next/router';
 
 
 
 const BooksList = ({ data, error }) => {
     const [page, setPage] = useState(1);
-    const { fetchMore, data: newData, error: newError } = useQuery(GET_ALL_BOOKS, {
+    const { fetchMore, data: newData, error: newError, refetch } = useQuery(GET_ALL_BOOKS, {
         variables: page
     });
     const [hasMore, setHasMore] = useState(data?.getAllBooks?.hasMore || false);
 
     const [books, setBooks] = useState([]);
+    const router = useRouter();
+
+    useEffect(() => {
+        refetch();
+    }, [router.pathname])
 
     useEffect(() => {
         const anyData = newData || data;
         if (anyData?.getAllBooks) {
-            const allBooks = [...books, ...anyData.getAllBooks.books].map((book) => { return { ...book, description: book.description.substring(0, MAX_DESCRIPTION_LENGTH) } });
+            const allBooks = [...anyData.getAllBooks.books, ...books].map((book) => { return { ...book, description: book.description.substring(0, MAX_DESCRIPTION_LENGTH) } });
 
             const uniqueItems = getUniqueItemsByKey(allBooks, "id");
             setBooks(uniqueItems);

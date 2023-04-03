@@ -20,7 +20,7 @@ export const getSingleBook = async (bookId) => {
         variables: {
             bookId,
         },
-        nextFetchPolicy: "no-cache"
+        fetchPolicy: "no-cache"
     });
 
     return response;

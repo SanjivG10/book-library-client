@@ -1,5 +1,4 @@
 
-import { useLazyQuery, useMutation } from '@apollo/client';
 import Rating from '@/components/common/Rating';
 import ReadingDropdownOption from '@/components/common/ReadingDropdownOption';
 import { BACKEND_URLS } from '@/constants/urls';
@@ -9,8 +8,10 @@ import RATE_BOOK from '@/graphql/mutations/rateBook.mutation';
 import UPDATE_BOOK_SHELF from '@/graphql/mutations/updateShelf.mutation';
 import { USER_BOOK_STATUS } from '@/graphql/queries/userBookStatus.query';
 import { useAuth } from '@/hooks/useAuth.hook';
-import { useContext, useEffect, useState } from "react";
+import { useMutation, useQuery } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
+import { useContext, useEffect, useState } from "react";
 
 const EachBookDetail = ({ book }) => {
 
@@ -22,37 +23,43 @@ const EachBookDetail = ({ book }) => {
     const [rateBook] = useMutation(RATE_BOOK);
     const [addOrUpdateBookshelf] = useMutation(UPDATE_BOOK_SHELF)
 
-    const [getCurrentUserStatus] = useLazyQuery(USER_BOOK_STATUS);
+    const router = useRouter();
+    const bookId = router.query.id;
+
+    const { user } = useAuth();
+
+    const { refetch, data } = useQuery(USER_BOOK_STATUS, {
+        skip: !user,
+        variables: {
+            bookId
+        }
+    });
 
     const [isBookFinished, setIsBookFinished] = useState(false);
     const [currentUserRating, setCurrentUserRating] = useState(0);
     const [userBookSelectedOption, setUserSelectedOption] = useState('');
-    const { user } = useAuth();
     const { setShowAuthModal } = useContext(NotificationContext);
     const { t } = useTranslation();
 
-    const fetchCurrentUserBookStatus = async () => {
-        const response = await getCurrentUserStatus({
-            variables: {
-                bookId: book.id
-            }
-        });
+    useEffect(() => {
+        (async () => {
+            const response = await refetch();
+            const { collectionType = "", finished = false, rating = 0 } = response?.data?.userBookStatus || {};
+            setCurrentUserRating(rating);
+            setUserSelectedOption(collectionType);
+            setIsBookFinished(finished);
+        })();
 
-        const { collectionType = "", finished = false, rating = 0 } = response?.data?.userBookStatus || {};
-        setCurrentUserRating(rating);
-        setUserSelectedOption(collectionType);
-        setIsBookFinished(finished);
-
-    }
+    }, [router.pathname])
 
     useEffect(() => {
-
-        (async () => {
-            if (user) {
-                fetchCurrentUserBookStatus();
-            }
-        })()
-    }, [user])
+        if (data) {
+            const { collectionType = "", finished = false, rating = 0 } = data?.userBookStatus || {};
+            setCurrentUserRating(rating);
+            setUserSelectedOption(collectionType);
+            setIsBookFinished(finished);
+        }
+    }, [data])
 
     const checkIfUserExistAndShowModalIfNot = () => {
         if (!user) {
