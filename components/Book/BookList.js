@@ -60,6 +60,9 @@ const BooksList = ({ data, error }) => {
                 loader={<Spinner />}
             >
                 <div data-testid="booklist-container" className='flex flex-col'>
+                    {books.length === 0 && <div className='flex justify-center items-center text-2xl bg-white'>
+                        No books in the library yet. Login and add one now!
+                    </div>}
                     {books.map((book) => (
                         <div data-testid="each-book" key={book.id} className='my-1'>
                             <EachBook key={book.id} book={book} />

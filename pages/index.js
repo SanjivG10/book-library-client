@@ -8,8 +8,17 @@ import Link from "next/link";
 
 
 export async function getServerSideProps({ locale = "en" }) {
-
-  const bookResponse = await getAllBooksForHomePage();
+  let bookResponse = {
+    data: null,
+    error: {}
+  }
+  try {
+    bookResponse = await getAllBooksForHomePage();
+  }
+  catch (error) {
+    bookResponse.error = JSON.stringify(error);
+    console.log("Error fetching books!");
+  }
   return {
     props: {
       bookResponse,
