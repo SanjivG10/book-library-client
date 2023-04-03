@@ -1,10 +1,10 @@
-import { useSubscription } from '@apollo/client';
-import { FaStar } from 'react-icons/fa';
 import { BOOK_UPDATE } from '@/graphql/subscriptions/bookUpdate.subscription';
-import React, { useEffect, useState } from 'react'
-import { v4 } from "uuid";
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { getUniqueItemsByKey } from '@/lib/utils';
+import { useSubscription } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useEffect, useState } from 'react';
+import { FaStar } from 'react-icons/fa';
 
 export async function getStaticProps({ locale = "en" }) {
     return {
@@ -15,17 +15,20 @@ export async function getStaticProps({ locale = "en" }) {
 }
 
 const LiveBookUpdate = () => {
-    const { data } = useSubscription(
+    const { data, error } = useSubscription(
         BOOK_UPDATE
     );
+
+    console.log(error)
 
     const [notifications, setNotifications] = useState([]);
 
 
     useEffect(() => {
         if (data?.bookUpdate) {
-            const newNotifications = [{ ...data?.bookUpdate, id: v4() }, ...notifications];
-            setNotifications(newNotifications);
+            const newNotifications = [{ ...data?.bookUpdate }, ...notifications];
+            const uniqueNotifications = getUniqueItemsByKey(newNotifications, "id");
+            setNotifications(uniqueNotifications);
         }
     }, [data]);
 
@@ -39,29 +42,22 @@ const LiveBookUpdate = () => {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 gap-4">
-                    <h4 className='mt-2 text-center text-2xl font-semibold'>
-                        {t("Live Notifications")}
-                    </h4>
                     {notifications.map((notification) => (
                         <div
                             data-testid="notification"
                             key={notification.id}
-                            className="flex items-center justify-between bg-white p-4 rounded-lg shadow-md"
+                            className="flex items-center bg-white p-4 rounded-lg shadow-md"
                         >
-                            <div className="flex items-center">
-                                <div className="flex items-center justify-center bg-gray-100 rounded-full w-10 h-10">
-                                    <FaStar className="text-yellow-400" />
-                                </div>
-                                <div className="ml-4">
-                                    <p className="font-medium text-gray-800">{notification.username}</p>
-                                    <p className="text-gray-400 text-sm">{notification.date}</p>
-                                </div>
+                            <div className="flex items-center justify-center bg-gray-100 rounded-full w-10 h-10">
+                                <span className="text-lg ml-1">{notification.rating}</span>
+                                <FaStar className="text-yellow-400" />
                             </div>
-                            <div className="flex items-center">
-                                <p className="text-gray-600 font-medium">{notification.title}</p>
-                                <span className="px-2 py-1 text-xs bg-green-500 text-white rounded-md ml-4">
-                                    {notification.rating}
-                                </span>
+                            <div className="ml-4">
+                                <p className="text-gray-600 font-bold text-4xl">{notification.title}</p>
+                                <div className="flex items-center">
+                                    <p className="font-medium">{notification.username}</p>
+                                    <p className="text-gray-400 text-sm ml-4">{notification.date}</p>
+                                </div>
                             </div>
                         </div>
                     ))}

@@ -24,26 +24,33 @@ const Navbar = () => {
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
                         <Link href={PAGE_URLS.HOME}>
-                            <div className="text-white px-3 py-2 rounded-md text-sm font-medium">
-                                <FaHome className="inline" />
-                                {t("Home")}
+                            <div className="text-white px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                                <FaHome className="inline mx-1" />
+                                <div>
+                                    {t("Home")}
+                                </div>
                             </div>
                         </Link>
                     </div>
                     <div className='flex'>
                         {!user ? (
                             <Link href={PAGE_URLS.LOGIN}>
-                                <div data-testid="loggedout" className="text-white px-3 py-2 rounded-md text-sm font-medium">
+                                <div className="text-white px-3 py-2 rounded-md text-sm font-medium flex items-center">
                                     <FaSignInAlt className="inline" />
-                                    {t("Login")}
+                                    <div className='mx-1'>
+                                        {t("Login")}
+                                    </div>
                                 </div>
                             </Link>
                         ) : (
                             <button onClick={() => {
                                 logout();
                             }} >
-                                <div data-testid="loggedin" className="text-white px-3 py-2 rounded-md text-sm font-medium">
-                                    <FaSignOutAlt className="inline" />                                {t("Logout")}
+                                <div className="text-white px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                                    <FaSignOutAlt className="inline" />
+                                    <div className='mx-1'>
+                                        {t("Logout")}
+                                    </div>
                                 </div>
                             </button>
                         )}

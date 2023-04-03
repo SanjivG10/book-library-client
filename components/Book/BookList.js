@@ -36,12 +36,17 @@ const BooksList = ({ data, error }) => {
     }, [data, newData])
 
     const fetchMoreBooks = async () => {
-        setPage((prevPage) => prevPage + 1);
-        const result = await fetchMore({
-            variables: { page },
-        });
+        try {
+            setPage((prevPage) => prevPage + 1);
+            const result = await fetchMore({
+                variables: { page },
+            });
 
-        setHasMore(result.data.getAllBooks.hasMore)
+            setHasMore(result.data.getAllBooks.hasMore)
+        }
+        catch {
+            console.log("Fetch more error");
+        }
     };
 
     if (error || newError) return <Error error={newError || error} />
